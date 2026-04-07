@@ -6,8 +6,8 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackQueryHandler
 import asyncio
 
-TOKEN = "8658587411:AAGsC_Onp6tsi2Bl5K8sSMqHq699Y6bKzP0"
-ADMIN_ID = 401251407
+TOKEN = "TOKEN"
+ADMIN_ID = ADMIN_ID
 
 product_locks = {}
 products = []
