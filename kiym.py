@@ -7,7 +7,7 @@ from telegram.ext import CallbackQueryHandler
 import asyncio
 
 TOKEN = "TOKEN"
-ADMIN_ID = ADMIN_ID
+ADMIN_ID = int(os.getenv("ADMIN_ID"))
 
 product_locks = {}
 products = []
