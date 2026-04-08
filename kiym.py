@@ -1646,29 +1646,28 @@ async def contact_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             text=f"📦 Pickup tayyor\nID: {order_id}"
         )
 
-        await query.answer("Tasdiqlandi")
     # ===== TOZALASH =====
         carts[user_id] = {}
         context.user_data.clear()
 # Application'ni qurishda quyidagi tartibda qo'shing:
 
-app = ApplicationBuilder().token(TOKEN).build()
+tg_app = app = ApplicationBuilder().token(TOKEN).build()
 
-app.add_handler(CommandHandler("start", start))
+tg_app.add_handler(CommandHandler("start", start))
 
-app.add_handler(MessageHandler(filters.PHOTO, photo_handler))
-app.add_handler(MessageHandler(filters.CONTACT, contact_handler))
-app.add_handler(MessageHandler(filters.LOCATION, location_handler))
-app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle))
+tg_app.add_handler(MessageHandler(filters.PHOTO, photo_handler))
+tg_app.add_handler(MessageHandler(filters.CONTACT, contact_handler))
+tg_app.add_handler(MessageHandler(filters.LOCATION, location_handler))
+tg_app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle))
 
-app.add_handler(CallbackQueryHandler(button_handler))
+tg_app.add_handler(CallbackQueryHandler(button_handler))
 
 load_products()
 load_orders()
 
-app = Flask(__name__)
+flask_app = Flask(__name__)
 
-@app.route("/")
+@flask_app.route("/")
 def home():
     return "Bot ishlayapti"
 
@@ -1676,5 +1675,9 @@ def run_web():
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
 
 # Flaskni alohida ishga tushiramiz
-threading.Thread(target=run_web).start()
-app.run_polling()
+def run_flask():
+    flask_app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+
+threading.Thread(target=run_flask).start()
+
+tg_app.run_polling()
