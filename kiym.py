@@ -6,8 +6,6 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackQueryHandler
 import asyncio
 import os
-from flask import Flask, request
-
 
 TOKEN = os.getenv("TOKEN")
 ADMIN_ID = int(os.getenv("ADMIN_ID"))
@@ -1650,7 +1648,6 @@ async def contact_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # ===== TOZALASH =====
         carts[user_id] = {}
         context.user_data.clear()
-
 # Application'ni qurishda quyidagi tartibda qo'shing:
 
 app = ApplicationBuilder().token(TOKEN).build()
@@ -1666,27 +1663,5 @@ app.add_handler(CallbackQueryHandler(button_handler))
 
 load_products()
 load_orders()
-app_web = Flask(__name__)
 
-@app_web.route('/')
-def home():
-    return "Bot ishlayapti!"
-
-@app_web.route(f'/{TOKEN}', methods=["POST"])
-def webhook():
-    update = Update.de_json(request.get_json(force=True), app.bot)
-    app.update_queue.put_nowait(update)
-    return "ok"
-
-import threading
-
-def run_bot():
-    app.run_webhook(
-        listen="0.0.0.0",
-        port=10000,
-        webhook_url=f"https://https://kiym-bot.onrender.com/{TOKEN}"
-    )
-
-threading.Thread(target=run_bot).start()
-
-app_web.run(host="0.0.0.0", port=10000)
+app.run_polling()
