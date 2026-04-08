@@ -2,7 +2,7 @@
 import json
 from telegram import KeyboardButton
 from telegram import Update, ReplyKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackQueryHandler
 import asyncio
@@ -1650,7 +1650,7 @@ async def contact_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data.clear()
 # Application'ni qurishda quyidagi tartibda qo'shing:
 
-tg_app = app = ApplicationBuilder().token(TOKEN).build()
+tg_app = Application.builder().token(TOKEN).build()
 
 tg_app.add_handler(CommandHandler("start", start))
 
@@ -1663,4 +1663,4 @@ tg_app.add_handler(CallbackQueryHandler(button_handler))
 
 load_products()
 load_orders()
-tg_app.run_polling(drop_pending_updates=True)
+tg_app.run_polling()
