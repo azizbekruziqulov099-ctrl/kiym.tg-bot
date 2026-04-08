@@ -1,3 +1,5 @@
+from flask import Flask
+import threading
 import json
 from telegram import KeyboardButton
 from telegram import Update, ReplyKeyboardMarkup
@@ -1664,4 +1666,15 @@ app.add_handler(CallbackQueryHandler(button_handler))
 load_products()
 load_orders()
 
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Bot ishlayapti"
+
+def run_web():
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+
+# Flaskni alohida ishga tushiramiz
+threading.Thread(target=run_web).start()
 app.run_polling()
